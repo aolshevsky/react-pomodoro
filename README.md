@@ -7,7 +7,7 @@ The Pomodoro Technique uses a timer to break down work into intervals traditiona
 - **Times available:**
   - Timer for code - 25min
   - Timer for relax - 5min
-  - Timer for coffe - 15min
+  - Timer for coffee - 15min
 - **Time display:**
   - Page display
   - Title display
