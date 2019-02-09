@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
+import Pomodoro from "./components/Pomodoro";
 import "./App.css";
 
-class App extends Component {
-  render() {
-    return <div className="App" />;
-  }
-}
+const App = props => (
+  <div className="App">
+    <Pomodoro />
+  </div>
+);
 
 export default App;
