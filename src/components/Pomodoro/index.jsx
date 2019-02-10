@@ -2,8 +2,8 @@ import React, { Component } from "react";
 
 class Pomodoro extends Component {
   state = {
-    time: 0,
-    timeType: 0,
+    time: 15,
+    timeType: 15,
     play: false
   };
 
@@ -84,6 +84,12 @@ class Pomodoro extends Component {
     });
   }
 
+  getTitle = () => {
+    let timeType = this.formatType(this.state.timeType);
+    if (this.state.play === true) return "It's time to " + timeType + " !";
+    return timeType.charAt(0).toUpperCase() + timeType.slice(1) + " is paused!";
+  };
+
   handlePlay = () => {
     this.play();
   };
@@ -109,9 +115,7 @@ class Pomodoro extends Component {
       <div className="pomodoro">
         <div className="container display">
           <span className="time">{this.formatTime(this.state.time)}</span>
-          <span className="timeType">
-            The {this.formatType(this.state.timeType)} time!
-          </span>
+          <span className="timeType">{this.getTitle()}</span>
         </div>
 
         <div className="container display">
