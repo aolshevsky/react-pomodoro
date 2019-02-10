@@ -32,8 +32,8 @@ class Pomodoro extends Component {
 
   render() {
     return (
-      <div>
-        <div className="container display timer">
+      <div className="pomodoro">
+        <div className="container display">
           <span className="time">{this.formatTime(this.state.time)}</span>
           <span className="timeType">
             The {this.formatType(this.state.timeType)} time!

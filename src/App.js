@@ -3,7 +3,7 @@ import Pomodoro from "./components/Pomodoro";
 import "./App.css";
 
 const App = props => (
-  <div className="App">
+  <div className="app">
     <Pomodoro />
   </div>
 );
