@@ -39,6 +39,17 @@ class Pomodoro extends Component {
             The {this.formatType(this.state.timeType)} time!
           </span>
         </div>
+        <div className="container display">
+          <button className="btn" onClick={this.handleSetTimeForWork}>
+            Work
+          </button>
+          <button className="btn" onClick={this.handleSetTimeForRelax}>
+            Relax
+          </button>
+          <button className="btn" onClick={this.handleSetTimeForCoffee}>
+            Coffee
+          </button>
+        </div>
       </div>
     );
   }

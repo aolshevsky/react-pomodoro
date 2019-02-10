@@ -3,19 +3,18 @@ body,
 #root,
 .app {
   height: 100%;
-  width: 100%;
 }
 
 body {
   font-family: "Roboto", sans-serif;
-  font-weight: 500;
+  font-weight: 300;
   background-color: #272727;
 }
 
 .time {
   font-size: 72px;
   font-weight: 400;
-  color: dimgray;
+  color: #fff;
   display: block;
   width: 100%;
   text-align: center;
@@ -25,9 +24,33 @@ body {
   display: block;
   font-size: 24px;
   color: #2ba0a0;
-  font-weight: 100;
+  font-weight: 300;
   width: 100%;
   text-align: center;
+}
+
+.btn {
+  border: 0;
+  background: #2ba0a0;
+  color: #fff;
+  padding: 10px 0;
+  width: 100%;
+  max-width: 110px;
+  max-height: 40px;
+  margin: 15px;
+  font-weight: 100;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #148080;
+}
+
+.btn:active,
+.btn:focus {
+  outline: 0;
+  background: #50b9b9;
 }
 
 .display {
@@ -41,8 +64,7 @@ body {
   width: 100%;
   max-width: 800px;
   min-height: 150px;
-  margin: auto;
-  background-color: #ecf0f1;
+  margin-bottom: 20px;
 }
 
 @media (min-width: 500px) {
