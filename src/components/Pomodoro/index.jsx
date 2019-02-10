@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import Mousetrap from "mousetrap";
+
 class Pomodoro extends Component {
   state = {
     time: 15,
@@ -9,14 +11,19 @@ class Pomodoro extends Component {
 
   componentDidMount() {
     this.setDefaultTime();
+    this.startShortcuts();
     Notification.requestPermission();
+  }
+
+  componenentDidUnmount() {
+    this.endShortcuts();
   }
 
   elapseTime = () => {
     if (this.state.time === 0) {
       this.pause();
     }
-    if (this.state.play === true) {
+    if (this.state.play) {
       this.setState({ time: this.state.time - 1 });
     }
   };
@@ -67,7 +74,7 @@ class Pomodoro extends Component {
   }
 
   play() {
-    if (this.state.play === true) return;
+    if (this.state.play) return;
 
     this.restartInterval();
 
@@ -86,9 +93,23 @@ class Pomodoro extends Component {
 
   getTitle = () => {
     let timeType = this.formatType(this.state.timeType);
-    if (this.state.play === true) return "It's time to " + timeType + " !";
+    if (this.state.play) return "It's time to " + timeType + " !";
     return timeType.charAt(0).toUpperCase() + timeType.slice(1) + " is paused!";
   };
+
+  togglePlay = () => {
+    if (this.state.play) return this.handlePause();
+
+    return this.handlePlay();
+  };
+
+  startShortcuts() {
+    Mousetrap.bind("space", this.togglePlay);
+  }
+
+  endShortcuts() {
+    Mousetrap.unbind("space", this.togglePlay);
+  }
 
   handlePlay = () => {
     this.play();
@@ -139,10 +160,14 @@ class Pomodoro extends Component {
         <div className="container">
           <button
             className="play btnIcon"
-            style={{ opacity: this.state.play === true ? 0.4 : 1 }}
+            style={{ opacity: this.state.play ? 0.4 : 1 }}
             onClick={this.handlePlay}
           />
-          <button className="stop btnIcon" onClick={this.handlePause} />
+          <button
+            className="stop btnIcon"
+            style={{ opacity: !this.state.play ? 0.4 : 1 }}
+            onClick={this.handlePause}
+          />
         </div>
       </div>
     );
