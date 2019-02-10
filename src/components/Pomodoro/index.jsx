@@ -22,6 +22,7 @@ class Pomodoro extends Component {
   elapseTime = () => {
     if (this.state.time === 0) {
       this.pause();
+      this.notifyMe();
     }
     if (this.state.play) {
       this.setState({ time: this.state.time - 1 });
@@ -102,10 +103,6 @@ class Pomodoro extends Component {
     return this.play();
   };
 
-  resetTimer = () => {
-    this.setDefaultTime(this, 10);
-  };
-
   startShortcuts() {
     Mousetrap.bind("space", this.togglePlay);
     Mousetrap.bind("ctrl+q", this.setDefaultTime.bind(this, 30));
@@ -113,6 +110,26 @@ class Pomodoro extends Component {
 
   endShortcuts() {
     Mousetrap.unbind("space", this.togglePlay);
+  }
+
+  notifyMe() {
+    if (Notification.permission !== "granted") Notification.requestPermission();
+    else {
+      let timeType = this.formatType(this.state.timeType);
+      if (timeType === "relax" || timeType === "coffee") {
+        new Notification("The time is over!", {
+          icon: "img/work.png",
+          lang: "en",
+          body: "Hey, back to work!"
+        });
+      } else {
+        new Notification("The time is over!", {
+          icon: "img/coffee.png",
+          lang: "en",
+          body: "Hey, time to coffee!"
+        });
+      }
+    }
   }
 
   handlePlay = () => {
