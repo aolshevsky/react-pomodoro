@@ -37,6 +37,7 @@ class Pomodoro extends Component {
   getFormatTypes() {
     return [
       { type: "work", time: 15 },
+      { type: "work", time: 30 },
       { type: "relax", time: 300 },
       { type: "coffee", time: 900 }
     ];
@@ -50,9 +51,7 @@ class Pomodoro extends Component {
     return null;
   }
 
-  setDefaultTime() {
-    let defaultTime = 15;
-
+  setDefaultTime(defaultTime = 15) {
     this.setState({
       time: defaultTime,
       timeType: defaultTime,
@@ -98,13 +97,18 @@ class Pomodoro extends Component {
   };
 
   togglePlay = () => {
-    if (this.state.play) return this.handlePause();
+    if (this.state.play) return this.pause();
 
-    return this.handlePlay();
+    return this.play();
+  };
+
+  resetTimer = () => {
+    this.setDefaultTime(this, 10);
   };
 
   startShortcuts() {
     Mousetrap.bind("space", this.togglePlay);
+    Mousetrap.bind("ctrl+q", this.setDefaultTime.bind(this, 30));
   }
 
   endShortcuts() {
