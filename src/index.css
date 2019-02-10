@@ -53,6 +53,35 @@ body {
   background: #50b9b9;
 }
 
+.btnIcon {
+  border: 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 60px;
+  height: 60px;
+  background-size: 50px;
+  transition: opacity 0.3s;
+}
+
+.btnIcon:hover {
+  opacity: 0.8;
+}
+
+.btnIcon:active,
+.btnIcon:focus {
+  outline: 0;
+  opacity: 0.4;
+}
+
+.play {
+  background-image: url("img/play-button.png");
+}
+
+.stop {
+  background-image: url("img/pause-button.png");
+}
+
 .display {
   margin-bottom: 20px;
 }
@@ -63,7 +92,6 @@ body {
   justify-content: center;
   width: 100%;
   max-width: 800px;
-  min-height: 150px;
   margin-bottom: 20px;
 }
 

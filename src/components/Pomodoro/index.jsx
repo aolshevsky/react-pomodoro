@@ -14,7 +14,7 @@ class Pomodoro extends Component {
 
   elapseTime = () => {
     if (this.state.time === 0) {
-      this.reset();
+      this.pause();
     }
     if (this.state.play === true) {
       this.setState({ time: this.state.time - 1 });
@@ -58,12 +58,20 @@ class Pomodoro extends Component {
     this.interval = setInterval(this.elapseTime, 1000);
   }
 
-  reset(time = this.state.time) {
+  pause(time = this.state.time) {
     clearInterval(this.interval);
     this.setState({
       time: time,
       play: false
     });
+  }
+
+  play() {
+    if (this.state.play === true) return;
+
+    this.restartInterval();
+
+    this.setState({ play: true });
   }
 
   setTime(newTime) {
@@ -75,6 +83,14 @@ class Pomodoro extends Component {
       play: true
     });
   }
+
+  handlePlay = () => {
+    this.play();
+  };
+
+  handlePause = () => {
+    this.pause();
+  };
 
   handleSetTimeForCoffee = newTime => {
     this.setTime(newTime);
@@ -97,6 +113,7 @@ class Pomodoro extends Component {
             The {this.formatType(this.state.timeType)} time!
           </span>
         </div>
+
         <div className="container display">
           <button className="btn" onClick={() => this.handleSetTimeForWork(15)}>
             Work
@@ -113,6 +130,15 @@ class Pomodoro extends Component {
           >
             Coffee
           </button>
+        </div>
+
+        <div className="container">
+          <button
+            className="play btnIcon"
+            style={{ opacity: this.state.play === true ? 0.4 : 1 }}
+            onClick={this.handlePlay}
+          />
+          <button className="stop btnIcon" onClick={this.handlePause} />
         </div>
       </div>
     );
