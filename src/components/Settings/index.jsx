@@ -13,7 +13,6 @@ class Settings extends React.Component {
     coffeTime: 15,
     longBreak: 4,
     checkNotification: false,
-    checkVibration: true,
     checkSounds: false
   };
 
@@ -55,34 +54,8 @@ class Settings extends React.Component {
     };
 
     return ReactDOM.createPortal(
-      <div
-        style={{
-          position: "absolute",
-          top: "0",
-          bottom: "0",
-          left: "0",
-          right: "0",
-          display: "grid",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "rgba(0,0,0,0.3)"
-        }}
-      >
-        <div
-          style={{
-            padding: 20,
-            background: "#ecf0f1",
-            opacity: 0.9,
-            borderRadius: "2px",
-            display: "inline-block",
-            minHeight: "600px",
-            margin: "1rem",
-            position: "relative",
-            minWidth: "600px",
-            boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)",
-            justifySelf: "center"
-          }}
-        >
+      <div className="settingsShadow">
+        <div className="settings">
           {this.props.children}
           <hr />
           <Form>
@@ -147,14 +120,6 @@ class Settings extends React.Component {
                 <Switch
                   onChange={e => this.onChange(e, "checkNotification")}
                   checked={this.state.checkNotification}
-                />
-              }
-            </Form.Item>
-            <Form.Item {...formItemLayout} label="Vibration">
-              {
-                <Switch
-                  onChange={e => this.onChange(e, "checkVibration")}
-                  checked={this.state.checkVibration}
                 />
               }
             </Form.Item>
