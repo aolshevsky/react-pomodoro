@@ -1,53 +1,47 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { connect } from "react-redux";
 import { InputNumber, Select, Form, Button, Switch } from "antd";
+import {
+  SET_WORK_TIME,
+  SET_RELAX_TIME,
+  SET_COFFEE_TIME,
+  SET_LONG_BREAK,
+  SET_CHECK_NOTIFICATIONS,
+  SET_CHECK_SOUNDS
+} from "../Actions";
 
 const { Option } = Select;
 
 const settingsRoot = document.getElementById("settings-root");
 
 class Settings extends React.Component {
-  state = {
-    workTime: 25,
-    relaxTime: 5,
-    coffeTime: 15,
-    longBreak: 4,
-    checkNotification: false,
-    checkSounds: false
-  };
-
-  onChange(e, value) {
-    this.setState({
-      [value]: e
-    });
+  onChange(value, action) {
+    return this.props.onChangeState(action, value);
   }
 
   onSelectChange(e) {
     if (e === "work") {
-      this.setState({
-        workTime: 50,
-        relaxTime: 10,
-        coffeTime: 20,
-        longBreak: 2
-      });
+      this.onChange(50, SET_WORK_TIME);
+      this.onChange(10, SET_RELAX_TIME);
+      this.onChange(20, SET_COFFEE_TIME);
+      this.onChange(2, SET_LONG_BREAK);
     } else if (e === "personal") {
-      this.setState({
-        workTime: 30,
-        relaxTime: 2,
-        coffeTime: 25,
-        longBreak: 4
-      });
+      this.onChange(30, SET_WORK_TIME);
+      this.onChange(2, SET_RELAX_TIME);
+      this.onChange(25, SET_COFFEE_TIME);
+      this.onChange(4, SET_LONG_BREAK);
     } else if (e === "default") {
-      this.setState({
-        workTime: 25,
-        relaxTime: 5,
-        coffeTime: 15,
-        longBreak: 4
-      });
+      this.onChange(25, SET_WORK_TIME);
+      this.onChange(5, SET_RELAX_TIME);
+      this.onChange(15, SET_COFFEE_TIME);
+      this.onChange(4, SET_LONG_BREAK);
     }
   }
 
   render() {
+    console.log(this.props.store);
+
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 }
@@ -74,8 +68,8 @@ class Settings extends React.Component {
             <Form.Item {...formItemLayout} label="Work time">
               {
                 <InputNumber
-                  onChange={e => this.onChange(e, "workTime")}
-                  value={this.state.workTime}
+                  onChange={e => this.onChange(e, SET_WORK_TIME)}
+                  value={this.props.store.workTime}
                   min={1}
                   max={60}
                 />
@@ -85,8 +79,8 @@ class Settings extends React.Component {
             <Form.Item {...formItemLayout} label="Relax time">
               {
                 <InputNumber
-                  onChange={e => this.onChange(e, "relaxTime")}
-                  value={this.state.relaxTime}
+                  onChange={e => this.onChange(e, SET_RELAX_TIME)}
+                  value={this.props.store.relaxTime}
                   min={1}
                   max={60}
                 />
@@ -96,8 +90,8 @@ class Settings extends React.Component {
             <Form.Item {...formItemLayout} label="Coffee time">
               {
                 <InputNumber
-                  onChange={e => this.onChange(e, "coffeeTime")}
-                  value={this.state.coffeTime}
+                  onChange={e => this.onChange(e, SET_COFFEE_TIME)}
+                  value={this.props.store.coffeTime}
                   min={1}
                   max={60}
                 />
@@ -107,8 +101,8 @@ class Settings extends React.Component {
             <Form.Item {...formItemLayout} label="Long break:">
               {
                 <InputNumber
-                  onChange={e => this.onChange(e, "longBreak")}
-                  value={this.state.longBreak}
+                  onChange={e => this.onChange(e, SET_LONG_BREAK)}
+                  value={this.props.store.longBreak}
                   min={1}
                   max={60}
                 />
@@ -118,16 +112,16 @@ class Settings extends React.Component {
             <Form.Item {...formItemLayout} label="Notifications">
               {
                 <Switch
-                  onChange={e => this.onChange(e, "checkNotification")}
-                  checked={this.state.checkNotification}
+                  onChange={e => this.onChange(e, SET_CHECK_NOTIFICATIONS)}
+                  checked={this.props.store.checkNotification}
                 />
               }
             </Form.Item>
             <Form.Item {...formItemLayout} label="Sounds">
               {
                 <Switch
-                  onChange={e => this.onChange(e, "checkSounds")}
-                  value={this.state.checkSounds}
+                  onChange={e => this.onChange(e, SET_CHECK_SOUNDS)}
+                  value={this.props.store.checkSounds}
                 />
               }
             </Form.Item>
@@ -142,4 +136,13 @@ class Settings extends React.Component {
 
 Settings = Form.create({})(Settings);
 
-export default Settings;
+export default connect(
+  state => ({
+    store: state
+  }),
+  dispatch => ({
+    onChangeState: (stateType, stateValue) => {
+      dispatch({ type: stateType, value: stateValue });
+    }
+  })
+)(Settings);
