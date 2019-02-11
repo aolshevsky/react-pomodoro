@@ -108,13 +108,7 @@ body {
 .bottomBar {
   position: absolute;
   width: 100%;
-  bottom: -20px;
-}
-
-@media (max-width: 500px) {
-  .bottomBar {
-    position: relative;
-  }
+  bottom: 0;
 }
 
 .controls {
@@ -123,7 +117,6 @@ body {
   flex-wrap: wrap;
   width: 100%;
   background: #2ba0a0;
-  padding: 2px 0;
 }
 
 .controlsLink {
@@ -139,4 +132,16 @@ body {
 .controlsLink a:hover,
 .controlsLink a:focus {
   text-decoration: underline;
+}
+
+.modalShadow {
+  position: "absolute";
+  top: "0";
+  bottom: "0";
+  left: "0";
+  right: "0";
+  display: "grid";
+  justify-content: "center";
+  align-items: "center";
+  background-color: "rgba(0,0,0,0.3)";
 }
