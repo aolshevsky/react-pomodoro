@@ -4,9 +4,9 @@ import { InputNumber, Select, Form, Button, Switch } from "antd";
 
 const { Option } = Select;
 
-const modalRoot = document.getElementById("modal-root");
+const settingsRoot = document.getElementById("settings-root");
 
-class Modal extends React.Component {
+class Settings extends React.Component {
   state = {
     workTime: 25,
     relaxTime: 5,
@@ -170,11 +170,11 @@ class Modal extends React.Component {
           <Button onClick={this.props.onClose}>Close</Button>
         </div>
       </div>,
-      modalRoot
+      settingsRoot
     );
   }
 }
 
-Modal = Form.create({})(Modal);
+Settings = Form.create({})(Settings);
 
-export default Modal;
+export default Settings;
