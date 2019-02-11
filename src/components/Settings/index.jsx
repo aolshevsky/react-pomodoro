@@ -7,8 +7,48 @@ const { Option } = Select;
 const modalRoot = document.getElementById("modal-root");
 
 class Modal extends React.Component {
+  state = {
+    workTime: 25,
+    relaxTime: 5,
+    coffeTime: 15,
+    longBreak: 4,
+    checkNotification: false,
+    checkVibration: true,
+    checkSounds: false
+  };
+
+  onChange(e, value) {
+    this.setState({
+      [value]: e
+    });
+  }
+
+  onSelectChange(e) {
+    if (e === "work") {
+      this.setState({
+        workTime: 50,
+        relaxTime: 10,
+        coffeTime: 20,
+        longBreak: 2
+      });
+    } else if (e === "personal") {
+      this.setState({
+        workTime: 30,
+        relaxTime: 2,
+        coffeTime: 25,
+        longBreak: 4
+      });
+    } else if (e === "default") {
+      this.setState({
+        workTime: 25,
+        relaxTime: 5,
+        coffeTime: 15,
+        longBreak: 4
+      });
+    }
+  }
+
   render() {
-    const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 }
@@ -32,6 +72,7 @@ class Modal extends React.Component {
           style={{
             padding: 20,
             background: "#ecf0f1",
+            opacity: 0.9,
             borderRadius: "2px",
             display: "inline-block",
             minHeight: "600px",
@@ -44,52 +85,86 @@ class Modal extends React.Component {
         >
           {this.props.children}
           <hr />
-          <Form onSubmit={this.handleSubmit}>
+          <Form>
             <Form.Item {...formItemLayout} label="Schemes" hasFeedback>
-              {getFieldDecorator("select", {
-                rules: [{ required: false, message: "Please, select schemes!" }]
-              })(
-                <Select defaultValue="default">
+              {
+                <Select
+                  onChange={e => this.onSelectChange(e)}
+                  defaultValue="default"
+                >
                   <Option value="default">default: 25 5 15 4</Option>
                   <Option value="work">work: 50 10 20 2</Option>
                   <Option value="personal">personal: 30 2 25 4</Option>
                 </Select>
-              )}
+              }
             </Form.Item>
             <Form.Item {...formItemLayout} label="Work time">
-              {getFieldDecorator("input-number", { initialValue: 25 })(
-                <InputNumber min={1} max={60} />
-              )}
+              {
+                <InputNumber
+                  onChange={e => this.onChange(e, "workTime")}
+                  value={this.state.workTime}
+                  min={1}
+                  max={60}
+                />
+              }
+              <span className="ant-form-text"> minuties</span>
             </Form.Item>
             <Form.Item {...formItemLayout} label="Relax time">
-              {getFieldDecorator("input-number", { initialValue: 5 })(
-                <InputNumber min={1} max={60} />
-              )}
+              {
+                <InputNumber
+                  onChange={e => this.onChange(e, "relaxTime")}
+                  value={this.state.relaxTime}
+                  min={1}
+                  max={60}
+                />
+              }
+              <span className="ant-form-text"> minuties</span>
             </Form.Item>
             <Form.Item {...formItemLayout} label="Coffee time">
-              {getFieldDecorator("input-number", { initialValue: 15 })(
-                <InputNumber min={1} max={60} />
-              )}
+              {
+                <InputNumber
+                  onChange={e => this.onChange(e, "coffeeTime")}
+                  value={this.state.coffeTime}
+                  min={1}
+                  max={60}
+                />
+              }
+              <span className="ant-form-text"> minuties</span>
             </Form.Item>
-            <Form.Item {...formItemLayout} label="Long break(pom.):">
-              {getFieldDecorator("input-number", { initialValue: 4 })(
-                <InputNumber min={1} max={60} />
-              )}
+            <Form.Item {...formItemLayout} label="Long break:">
+              {
+                <InputNumber
+                  onChange={e => this.onChange(e, "longBreak")}
+                  value={this.state.longBreak}
+                  min={1}
+                  max={60}
+                />
+              }
+              <span className="ant-form-text"> pomodoros</span>
             </Form.Item>
             <Form.Item {...formItemLayout} label="Notifications">
-              {getFieldDecorator("switch", {
-                valuePropName: "checkNotification"
-              })(<Switch />)}
+              {
+                <Switch
+                  onChange={e => this.onChange(e, "checkNotification")}
+                  checked={this.state.checkNotification}
+                />
+              }
             </Form.Item>
             <Form.Item {...formItemLayout} label="Vibration">
-              {getFieldDecorator("switch", { valuePropName: "checkVibration" })(
-                <Switch />
-              )}
+              {
+                <Switch
+                  onChange={e => this.onChange(e, "checkVibration")}
+                  checked={this.state.checkVibration}
+                />
+              }
             </Form.Item>
             <Form.Item {...formItemLayout} label="Sounds">
-              {getFieldDecorator("switch", { valuePropName: "checkSounds" })(
-                <Switch />
-              )}
+              {
+                <Switch
+                  onChange={e => this.onChange(e, "checkSounds")}
+                  value={this.state.checkSounds}
+                />
+              }
             </Form.Item>
           </Form>
           <Button onClick={this.props.onClose}>Close</Button>
