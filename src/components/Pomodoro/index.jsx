@@ -157,6 +157,7 @@ class Pomodoro extends Component {
       <div className="pomodoro">
         <div className="container display">
           <span className="time">{this.formatTime(this.state.time)}</span>
+
           <span className="timeType">{this.getTitle()}</span>
         </div>
 
@@ -164,12 +165,14 @@ class Pomodoro extends Component {
           <button className="btn" onClick={() => this.handleSetTimeForWork(15)}>
             Work
           </button>
+
           <button
             className="btn"
             onClick={() => this.handleSetTimeForRelax(300)}
           >
             Relax
           </button>
+
           <button
             className="btn"
             onClick={() => this.handleSetTimeForCoffee(900)}
@@ -184,11 +187,24 @@ class Pomodoro extends Component {
             style={{ opacity: this.state.play ? 0.4 : 1 }}
             onClick={this.handlePlay}
           />
+
           <button
             className="stop btnIcon"
             style={{ opacity: !this.state.play ? 0.4 : 1 }}
             onClick={this.handlePause}
           />
+        </div>
+
+        {/* Bottom section
+        ------------------------------- */}
+        <div className="bottomBar">
+          <div className="controls">
+            <div className="controlsLink">
+              <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique">
+                What is Pomodoro?
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     );
