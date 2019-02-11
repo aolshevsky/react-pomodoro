@@ -17,7 +17,7 @@ import {
 const initialState = {
   workTime: 25,
   relaxTime: 5,
-  coffeTime: 15,
+  coffeeTime: 15,
   longBreak: 4,
   checkNotification: false,
   checkSounds: false
@@ -67,7 +67,7 @@ class App extends React.Component {
       <div className="app">
         <Button
           className="btn"
-          icon={"img/settings"}
+          icon={"settings.png"}
           onClick={this.handleShowMessageClick}
         >
           Settings
