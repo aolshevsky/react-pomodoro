@@ -112,6 +112,12 @@ class Pomodoro extends Component {
     Mousetrap.unbind("space", this.togglePlay);
   }
 
+  checkTimeType = timeType => {
+    if (this.formatType(this.state.timeType) === timeType) return true;
+
+    return false;
+  };
+
   notifyMe() {
     if (Notification.permission !== "granted") Notification.requestPermission();
     else {
@@ -162,12 +168,17 @@ class Pomodoro extends Component {
         </div>
 
         <div className="container display">
-          <button className="btn" onClick={() => this.handleSetTimeForWork(15)}>
+          <button
+            className="btn"
+            style={{ opacity: this.checkTimeType("work") ? 0.7 : 1 }}
+            onClick={() => this.handleSetTimeForWork(15)}
+          >
             Work
           </button>
 
           <button
             className="btn"
+            style={{ opacity: this.checkTimeType("relax") ? 0.7 : 1 }}
             onClick={() => this.handleSetTimeForRelax(300)}
           >
             Relax
@@ -175,6 +186,7 @@ class Pomodoro extends Component {
 
           <button
             className="btn"
+            style={{ opacity: this.checkTimeType("coffee") ? 0.7 : 1 }}
             onClick={() => this.handleSetTimeForCoffee(900)}
           >
             Coffee

@@ -50,7 +50,6 @@ body {
 .btn:active,
 .btn:focus {
   outline: 0;
-  background: #50b9b9;
 }
 
 .btnIcon {
