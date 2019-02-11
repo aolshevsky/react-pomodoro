@@ -1,6 +1,7 @@
 import React from "react";
 import Pomodoro from "./components/Pomodoro";
 import Modal from "./components/Settings";
+import { Button } from "antd";
 import "./App.css";
 
 class App extends React.Component {
@@ -10,13 +11,11 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <button className="btn" onClick={this.handleShowMessageClick}>
+        <Button className="btn" onClick={this.handleShowMessageClick}>
           Settings
-        </button>
+        </Button>
         {this.state.showModal ? (
-          <Modal onClose={this.handleCloseModal}>
-            This is the Pomodoro settings!
-          </Modal>
+          <Modal onClose={this.handleCloseModal}>Pomodoro settings!</Modal>
         ) : null}
         <Pomodoro />
       </div>

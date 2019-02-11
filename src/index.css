@@ -8,7 +8,7 @@ body,
 body {
   font-family: "Roboto", sans-serif;
   font-weight: 300;
-  background-color: #272727;
+  background-color: #272727 !important;
 }
 
 .time {
@@ -31,8 +31,8 @@ body {
 
 .btn {
   border: 0;
-  background: #2ba0a0;
-  color: #fff;
+  background: #2ba0a0 !important;
+  color: #fff !important;
   padding: 10px 0;
   width: 100%;
   max-width: 110px;
@@ -44,7 +44,7 @@ body {
 }
 
 .btn:hover {
-  background: #148080;
+  background: #148080 !important;
 }
 
 .btn:active,
