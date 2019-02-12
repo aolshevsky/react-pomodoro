@@ -35,7 +35,7 @@ function settings(state = initialState, action) {
       });
     case SET_COFFEE_TIME:
       return Object.assign({}, state, {
-        coffeTime: action.value
+        coffeeTime: action.value
       });
     case SET_LONG_BREAK:
       return Object.assign({}, state, {

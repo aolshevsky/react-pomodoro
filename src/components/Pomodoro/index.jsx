@@ -1,26 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  SET_WORK_TIME,
-  SET_RELAX_TIME,
-  SET_COFFEE_TIME,
-  SET_LONG_BREAK,
-  SET_CHECK_NOTIFICATIONS,
-  SET_CHECK_SOUNDS,
-  WORK_TIME,
-  RELAX_TIME,
-  COFFEE_TIME
-} from "../Actions";
+import { WORK_TIME, RELAX_TIME, COFFEE_TIME } from "../Actions";
 import Mousetrap from "mousetrap";
-
-// Перевести все в минуты!!!!!
 
 class Pomodoro extends Component {
   state = {
     time: this.props.store.workTime,
     timeType: this.props.store.workTime,
+    longBreak: this.props.store.longBreak,
     play: false
   };
+
+  onChange(value, action) {
+    return this.props.onChangeState(action, value);
+  }
 
   componentDidMount() {
     this.setDefaultTime();
@@ -34,7 +27,25 @@ class Pomodoro extends Component {
 
   elapseTime = () => {
     if (this.state.time === 0) {
-      this.pause();
+      //this.pause();
+      let timeType = this.formatType(this.state.timeType);
+      if (this.state.longBreak === 0) {
+        this.setLongBreak(this.props.store.longBreak);
+      }
+
+      if (timeType === WORK_TIME) {
+        this.setTime(this.props.store.relaxTime);
+      } else if (timeType === RELAX_TIME) {
+        if (this.state.longBreak !== 0) {
+          this.setTime(this.props.store.workTime);
+        } else {
+          this.setTime(this.props.store.coffeeTime);
+        }
+      } else {
+        this.setTime(this.props.store.workTime);
+        this.setLongBreak(this.props.store.longBreak - 1);
+      }
+
       this.notifyMe();
     }
     if (this.state.play) {
@@ -58,6 +69,7 @@ class Pomodoro extends Component {
 
   formatType(timeType) {
     let timeTypes = this.getFormatTypes();
+    console.log(timeType, timeTypes);
     for (let tType of timeTypes) {
       if (tType.time === timeType) return tType.type;
     }
@@ -86,7 +98,7 @@ class Pomodoro extends Component {
   }
 
   play() {
-    if (this.state.play) return;
+    if (this.state.play || this.state.time === 0) return;
 
     this.restartInterval();
 
@@ -100,6 +112,12 @@ class Pomodoro extends Component {
       time: newTime,
       timeType: newTime,
       play: true
+    });
+  }
+
+  setLongBreak(longBreak) {
+    this.setState({
+      longBreak: longBreak
     });
   }
 
@@ -130,11 +148,15 @@ class Pomodoro extends Component {
     return false;
   };
 
+  MinToSec = min => {
+    return 60 * min;
+  };
+
   notifyMe() {
     if (Notification.permission !== "granted") Notification.requestPermission();
     else {
       let timeType = this.formatType(this.state.timeType);
-      if (timeType === RELAX_TIME || timeType === COFFEE_TIME) {
+      if (timeType === WORK_TIME) {
         new Notification("The time is over!", {
           icon: "img/work.png",
           lang: "en",

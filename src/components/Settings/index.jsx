@@ -91,7 +91,7 @@ class Settings extends React.Component {
               {
                 <InputNumber
                   onChange={e => this.onChange(e, SET_COFFEE_TIME)}
-                  value={this.props.store.coffeTime}
+                  value={this.props.store.coffeeTime}
                   min={1}
                   max={60}
                 />
