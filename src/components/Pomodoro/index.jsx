@@ -1,11 +1,24 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
+import {
+  SET_WORK_TIME,
+  SET_RELAX_TIME,
+  SET_COFFEE_TIME,
+  SET_LONG_BREAK,
+  SET_CHECK_NOTIFICATIONS,
+  SET_CHECK_SOUNDS,
+  WORK_TIME,
+  RELAX_TIME,
+  COFFEE_TIME
+} from "../Actions";
 import Mousetrap from "mousetrap";
+
+// Перевести все в минуты!!!!!
 
 class Pomodoro extends Component {
   state = {
-    time: 15,
-    timeType: 15,
+    time: this.props.store.workTime,
+    timeType: this.props.store.workTime,
     play: false
   };
 
@@ -37,10 +50,9 @@ class Pomodoro extends Component {
 
   getFormatTypes() {
     return [
-      { type: "work", time: 15 },
-      { type: "work", time: 30 },
-      { type: "relax", time: 300 },
-      { type: "coffee", time: 900 }
+      { type: WORK_TIME, time: this.props.store.workTime },
+      { type: RELAX_TIME, time: this.props.store.relaxTime },
+      { type: COFFEE_TIME, time: this.props.store.coffeeTime }
     ];
   }
 
@@ -52,7 +64,7 @@ class Pomodoro extends Component {
     return null;
   }
 
-  setDefaultTime(defaultTime = 15) {
+  setDefaultTime(defaultTime = this.props.store.workTime) {
     this.setState({
       time: defaultTime,
       timeType: defaultTime,
@@ -122,7 +134,7 @@ class Pomodoro extends Component {
     if (Notification.permission !== "granted") Notification.requestPermission();
     else {
       let timeType = this.formatType(this.state.timeType);
-      if (timeType === "relax" || timeType === "coffee") {
+      if (timeType === RELAX_TIME || timeType === COFFEE_TIME) {
         new Notification("The time is over!", {
           icon: "img/work.png",
           lang: "en",
@@ -170,24 +182,28 @@ class Pomodoro extends Component {
         <div className="container display">
           <button
             className="btn"
-            style={{ opacity: this.checkTimeType("work") ? 0.7 : 1 }}
-            onClick={() => this.handleSetTimeForWork(15)}
+            style={{ opacity: this.checkTimeType(WORK_TIME) ? 0.7 : 1 }}
+            onClick={() => this.handleSetTimeForWork(this.props.store.workTime)}
           >
             Work
           </button>
 
           <button
             className="btn"
-            style={{ opacity: this.checkTimeType("relax") ? 0.7 : 1 }}
-            onClick={() => this.handleSetTimeForRelax(300)}
+            style={{ opacity: this.checkTimeType(RELAX_TIME) ? 0.7 : 1 }}
+            onClick={() =>
+              this.handleSetTimeForRelax(this.props.store.relaxTime)
+            }
           >
             Relax
           </button>
 
           <button
             className="btn"
-            style={{ opacity: this.checkTimeType("coffee") ? 0.7 : 1 }}
-            onClick={() => this.handleSetTimeForCoffee(900)}
+            style={{ opacity: this.checkTimeType(COFFEE_TIME) ? 0.7 : 1 }}
+            onClick={() =>
+              this.handleSetTimeForCoffee(this.props.store.coffeeTime)
+            }
           >
             Coffee
           </button>
@@ -223,4 +239,13 @@ class Pomodoro extends Component {
   }
 }
 
-export default Pomodoro;
+export default connect(
+  state => ({
+    store: state
+  }),
+  dispatch => ({
+    onChangeState: (stateType, stateValue) => {
+      dispatch({ type: stateType, value: stateValue });
+    }
+  })
+)(Pomodoro);
