@@ -29,21 +29,19 @@ class Pomodoro extends Component {
     if (this.state.time === 0) {
       //this.pause();
       let timeType = this.getTimeType();
-      if (this.state.longBreak === 0) {
-        this.setLongBreak(this.props.store.longBreak);
-      }
 
       if (timeType === WORK_TIME) {
-        this.setTime(this.props.store.relaxTime);
-      } else if (timeType === RELAX_TIME) {
-        if (this.state.longBreak !== 0) {
-          this.setTime(this.props.store.workTime);
+        if (this.state.longBreak !== 1) {
+          this.setTime(this.props.store.relaxTime);
         } else {
           this.setTime(this.props.store.coffeeTime);
+          this.setLongBreak(this.props.store.longBreak[1]);
         }
+      } else if (timeType === RELAX_TIME) {
+        this.setTime(this.props.store.workTime);
+        this.setLongBreak(this.state.longBreak - 1);
       } else {
         this.setTime(this.props.store.workTime);
-        this.setLongBreak(this.props.store.longBreak - 1);
       }
 
       this.notifyMe();
@@ -103,6 +101,7 @@ class Pomodoro extends Component {
   }
 
   setLongBreak(longBreak) {
+    console.log("wdewd", longBreak);
     this.setState({
       longBreak: longBreak
     });
@@ -141,7 +140,7 @@ class Pomodoro extends Component {
 
   notifyMe() {
     if (Notification.permission !== "granted") Notification.requestPermission();
-    else {
+    else if (this.props.store.checkNotification) {
       let timeType = this.getTimeType();
       if (timeType === WORK_TIME) {
         new Notification("The time is over!", {

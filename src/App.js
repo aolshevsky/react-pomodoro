@@ -15,7 +15,7 @@ import {
 } from "./components/Actions";
 
 const initialState = {
-  workTime: ["work", 25],
+  workTime: ["work", 7],
   relaxTime: ["relax", 5],
   coffeeTime: ["coffee", 15],
   longBreak: ["longBreak", 4],
