@@ -5,9 +5,9 @@ import Mousetrap from "mousetrap";
 
 class Pomodoro extends Component {
   state = {
-    time: this.props.store.workTime,
-    timeType: this.props.store.workTime,
-    longBreak: this.props.store.longBreak,
+    time: this.props.store.workTime[1],
+    timeType: this.props.store.workTime[0],
+    longBreak: this.props.store.longBreak[1],
     play: false
   };
 
@@ -28,7 +28,7 @@ class Pomodoro extends Component {
   elapseTime = () => {
     if (this.state.time === 0) {
       //this.pause();
-      let timeType = this.formatType(this.state.timeType);
+      let timeType = this.getTimeType();
       if (this.state.longBreak === 0) {
         this.setLongBreak(this.props.store.longBreak);
       }
@@ -59,27 +59,14 @@ class Pomodoro extends Component {
     return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
   }
 
-  getFormatTypes() {
-    return [
-      { type: WORK_TIME, time: this.props.store.workTime },
-      { type: RELAX_TIME, time: this.props.store.relaxTime },
-      { type: COFFEE_TIME, time: this.props.store.coffeeTime }
-    ];
-  }
-
-  formatType(timeType) {
-    let timeTypes = this.getFormatTypes();
-    console.log(timeType, timeTypes);
-    for (let tType of timeTypes) {
-      if (tType.time === timeType) return tType.type;
-    }
-    return null;
+  getTimeType() {
+    return this.state.timeType;
   }
 
   setDefaultTime(defaultTime = this.props.store.workTime) {
     this.setState({
-      time: defaultTime,
-      timeType: defaultTime,
+      time: defaultTime[1],
+      timeType: defaultTime[0],
       play: false
     });
   }
@@ -109,8 +96,8 @@ class Pomodoro extends Component {
     this.restartInterval();
 
     this.setState({
-      time: newTime,
-      timeType: newTime,
+      time: newTime[1],
+      timeType: newTime[0],
       play: true
     });
   }
@@ -122,7 +109,7 @@ class Pomodoro extends Component {
   }
 
   getTitle = () => {
-    let timeType = this.formatType(this.state.timeType);
+    let timeType = this.getTimeType();
     if (this.state.play) return "It's time to " + timeType + " !";
     return timeType.charAt(0).toUpperCase() + timeType.slice(1) + " is paused!";
   };
@@ -143,7 +130,7 @@ class Pomodoro extends Component {
   }
 
   checkTimeType = timeType => {
-    if (this.formatType(this.state.timeType) === timeType) return true;
+    if (this.getTimeType() === timeType) return true;
 
     return false;
   };
@@ -155,7 +142,7 @@ class Pomodoro extends Component {
   notifyMe() {
     if (Notification.permission !== "granted") Notification.requestPermission();
     else {
-      let timeType = this.formatType(this.state.timeType);
+      let timeType = this.getTimeType();
       if (timeType === WORK_TIME) {
         new Notification("The time is over!", {
           icon: "img/work.png",

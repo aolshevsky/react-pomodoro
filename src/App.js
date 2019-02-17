@@ -15,10 +15,10 @@ import {
 } from "./components/Actions";
 
 const initialState = {
-  workTime: 25,
-  relaxTime: 5,
-  coffeeTime: 15,
-  longBreak: 4,
+  workTime: ["work", 25],
+  relaxTime: ["relax", 5],
+  coffeeTime: ["coffee", 15],
+  longBreak: ["longBreak", 4],
   checkNotification: false,
   checkSounds: false
 };
@@ -27,19 +27,19 @@ function settings(state = initialState, action) {
   switch (action.type) {
     case SET_WORK_TIME:
       return Object.assign({}, state, {
-        workTime: action.value
+        workTime: ["work", action.value]
       });
     case SET_RELAX_TIME:
       return Object.assign({}, state, {
-        relaxTime: action.value
+        relaxTime: ["relax", action.value]
       });
     case SET_COFFEE_TIME:
       return Object.assign({}, state, {
-        coffeeTime: action.value
+        coffeeTime: ["coffee", action.value]
       });
     case SET_LONG_BREAK:
       return Object.assign({}, state, {
-        longBreak: action.value
+        longBreak: ["longBreak", action.value]
       });
     case SET_CHECK_NOTIFICATIONS:
       return Object.assign({}, state, {

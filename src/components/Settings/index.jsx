@@ -69,7 +69,7 @@ class Settings extends React.Component {
               {
                 <InputNumber
                   onChange={e => this.onChange(e, SET_WORK_TIME)}
-                  value={this.props.store.workTime}
+                  value={this.props.store.workTime[1]}
                   min={1}
                   max={60}
                 />
@@ -80,7 +80,7 @@ class Settings extends React.Component {
               {
                 <InputNumber
                   onChange={e => this.onChange(e, SET_RELAX_TIME)}
-                  value={this.props.store.relaxTime}
+                  value={this.props.store.relaxTime[1]}
                   min={1}
                   max={60}
                 />
@@ -91,7 +91,7 @@ class Settings extends React.Component {
               {
                 <InputNumber
                   onChange={e => this.onChange(e, SET_COFFEE_TIME)}
-                  value={this.props.store.coffeeTime}
+                  value={this.props.store.coffeeTime[1]}
                   min={1}
                   max={60}
                 />
@@ -102,7 +102,7 @@ class Settings extends React.Component {
               {
                 <InputNumber
                   onChange={e => this.onChange(e, SET_LONG_BREAK)}
-                  value={this.props.store.longBreak}
+                  value={this.props.store.longBreak[1]}
                   min={1}
                   max={60}
                 />
