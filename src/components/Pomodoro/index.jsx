@@ -190,7 +190,10 @@ class Pomodoro extends Component {
         <div className="container display">
           <span className="time">{this.formatTime(this.props.store.time)}</span>
 
-          <span className="timeType">{this.getTitle()}</span>
+          <span className="timeType">{this.getTitle()} </span>
+          <span className="reminderPomodoro">
+            Reminder pomodoro: {this.state.longBreak}
+          </span>
         </div>
 
         <div className="container display">

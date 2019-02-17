@@ -29,6 +29,15 @@ body {
   text-align: center;
 }
 
+.reminderPomodoro {
+  display: block;
+  font-size: 24px;
+  color: #899c9c;
+  font-weight: 300;
+  width: 100%;
+  text-align: center;
+}
+
 .btn {
   border: 0;
   background: #2ba0a0 !important;
