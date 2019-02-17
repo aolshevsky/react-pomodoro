@@ -6,6 +6,7 @@ import Settings from "./components/Settings";
 import { Button } from "antd";
 import "./App.css";
 import {
+  SET_TIME,
   SET_WORK_TIME,
   SET_RELAX_TIME,
   SET_COFFEE_TIME,
@@ -15,6 +16,7 @@ import {
 } from "./components/Actions";
 
 const initialState = {
+  time: 0,
   workTime: ["work", 7],
   relaxTime: ["relax", 5],
   coffeeTime: ["coffee", 15],
@@ -25,6 +27,10 @@ const initialState = {
 
 function settings(state = initialState, action) {
   switch (action.type) {
+    case SET_TIME:
+      return Object.assign({}, state, {
+        time: action.value
+      });
     case SET_WORK_TIME:
       return Object.assign({}, state, {
         workTime: ["work", action.value]
@@ -79,6 +85,17 @@ class App extends React.Component {
             </Settings>
           ) : null}
           <Pomodoro />
+          {/* Bottom section
+        ------------------------------- */}
+          <div className="bottomBar">
+            <div className="controls">
+              <div className="controlsLink">
+                <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique">
+                  What is Pomodoro?
+                </a>
+              </div>
+            </div>
+          </div>
         </Provider>
       </div>
     );

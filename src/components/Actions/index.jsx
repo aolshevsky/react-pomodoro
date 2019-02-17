@@ -2,6 +2,7 @@
  action types
 */
 
+export const SET_TIME = "SET_TIME";
 export const SET_WORK_TIME = "SET_WORK_TIME";
 export const SET_RELAX_TIME = "SET_RELAX_TIME";
 export const SET_COFFEE_TIME = "SET_COFFEE_TIME";

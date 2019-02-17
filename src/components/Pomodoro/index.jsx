@@ -1,18 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { WORK_TIME, RELAX_TIME, COFFEE_TIME } from "../Actions";
+import { SET_TIME, WORK_TIME, RELAX_TIME, COFFEE_TIME } from "../Actions";
 import Mousetrap from "mousetrap";
 
 class Pomodoro extends Component {
-  state = {
-    time: this.props.store.workTime[1],
-    timeType: this.props.store.workTime[0],
-    longBreak: this.props.store.longBreak[1],
-    play: false
-  };
+  constructor(props) {
+    super(props);
+    const store = this.props.store;
+    this.state = {
+      timeType: store.workTime[0],
+      longBreak: store.longBreak[1],
+      play: false
+    };
+  }
 
   onChange(value, action) {
     return this.props.onChangeState(action, value);
+  }
+
+  onSetTime(value) {
+    this.onChange(value, SET_TIME);
   }
 
   componentDidMount() {
@@ -26,7 +33,7 @@ class Pomodoro extends Component {
   }
 
   elapseTime = () => {
-    if (this.state.time === 0) {
+    if (this.props.store.time === 0) {
       //this.pause();
       let timeType = this.getTimeType();
 
@@ -47,7 +54,7 @@ class Pomodoro extends Component {
       this.notifyMe();
     }
     if (this.state.play) {
-      this.setState({ time: this.state.time - 1 });
+      this.onSetTime(this.props.store.time - 1);
     }
   };
 
@@ -63,10 +70,10 @@ class Pomodoro extends Component {
 
   setDefaultTime(defaultTime = this.props.store.workTime) {
     this.setState({
-      time: defaultTime[1],
       timeType: defaultTime[0],
       play: false
     });
+    this.onSetTime(defaultTime[1]);
   }
 
   restartInterval() {
@@ -74,16 +81,16 @@ class Pomodoro extends Component {
     this.interval = setInterval(this.elapseTime, 1000);
   }
 
-  pause(time = this.state.time) {
+  pause(time = this.props.store.time) {
     clearInterval(this.interval);
     this.setState({
-      time: time,
       play: false
     });
+    this.onSetTime(time);
   }
 
   play() {
-    if (this.state.play || this.state.time === 0) return;
+    if (this.state.play || this.props.store.time === 0) return;
 
     this.restartInterval();
 
@@ -94,14 +101,13 @@ class Pomodoro extends Component {
     this.restartInterval();
 
     this.setState({
-      time: newTime[1],
       timeType: newTime[0],
       play: true
     });
+    this.onSetTime(newTime[1]);
   }
 
   setLongBreak(longBreak) {
-    console.log("wdewd", longBreak);
     this.setState({
       longBreak: longBreak
     });
@@ -182,7 +188,7 @@ class Pomodoro extends Component {
     return (
       <div className="pomodoro">
         <div className="container display">
-          <span className="time">{this.formatTime(this.state.time)}</span>
+          <span className="time">{this.formatTime(this.props.store.time)}</span>
 
           <span className="timeType">{this.getTitle()}</span>
         </div>
@@ -229,18 +235,6 @@ class Pomodoro extends Component {
             style={{ opacity: !this.state.play ? 0.4 : 1 }}
             onClick={this.handlePause}
           />
-        </div>
-
-        {/* Bottom section
-        ------------------------------- */}
-        <div className="bottomBar">
-          <div className="controls">
-            <div className="controlsLink">
-              <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique">
-                What is Pomodoro?
-              </a>
-            </div>
-          </div>
         </div>
       </div>
     );
